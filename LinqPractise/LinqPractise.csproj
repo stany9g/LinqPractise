@@ -44,7 +44,6 @@
   <ItemGroup>
     <Compile Include="Main\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tasks\Math.cs" />
     <Compile Include="Tasks\TradeHistory.cs" />
     <Compile Include="Tasks\Trader.cs" />
     <Compile Include="Tasks\Transaction.cs" />

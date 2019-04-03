@@ -44,8 +44,10 @@ namespace LinqPractiseTests
             List<Transaction> actual = tradeHistory.FindAllTransactionsIn2011AndSortByValueAsc();
 
             // Assert
-            Assert.AreEqual(actual[0], 10);
-            Assert.AreEqual(actual[0], 10);
+            Assert.AreEqual(actual[0].Value, 10);
+            Assert.AreEqual(actual[1].Value, 30);
+            Assert.AreEqual(actual[2].Value, 300);
+            Assert.AreEqual(actual[3].Value, 400);
         }
 
         [TestMethod]
@@ -98,9 +100,9 @@ namespace LinqPractiseTests
             Dictionary<string, List<Trader>> traders = tradeHistory.GetTradersByTown();
 
 
-            List<string> kladnoTradersTest = traders["Kladno"].Select(x => x.Name).ToList();
-            List<string> cambridgeTradersTest = traders["Cambridge"].Select(x => x.Name).ToList();
-            List<string> milanoTradersTest = traders["Milano"].Select(x => x.Name).ToList();
+            List<string> kladnoTradersTest = traders["Kladno"].Select(x => x.Name).OrderBy(x =>x ).ToList();
+            List<string> cambridgeTradersTest = traders["Cambridge"].Select(x => x.Name).OrderBy(x => x).ToList();
+            List<string> milanoTradersTest = traders["Milano"].Select(x => x.Name).OrderBy(x => x).ToList();
 
             //assert
             CollectionAssert.AreEqual(kladnoTradersLabel, kladnoTradersTest.ToArray());
@@ -118,17 +120,6 @@ namespace LinqPractiseTests
             Assert.AreEqual(2, traders["Kladno"]);
             Assert.AreEqual(3, traders["Cambridge"]);
             Assert.AreEqual(1, traders["Milano"]);
-        }
-
-        [TestMethod]
-        public void PartitionTransactionsByTraderIsVegetarian()
-        {
-            //act
-            Dictionary<bool, List<Transaction>> traders = tradeHistory.PartitionTransactionsByTraderIsVegetarian();
-
-            //assert - simplified test checking only size of both groups
-            Assert.AreEqual(traders[true].Count, 4);
-            Assert.AreEqual(traders[false].Count, 7);
         }
     }
 }
