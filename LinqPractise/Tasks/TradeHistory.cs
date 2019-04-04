@@ -22,7 +22,7 @@ namespace LinqPractise
         public List<Transaction> FindAllTransactionsIn2011AndSortByValueAsc()
         {
             List<Transaction> newList = new List<Transaction>();
-            //Implement body here
+            newList = _transactions.FindAll(x => x.Year == 2011).OrderBy(x => x.Value).ToList();
             return newList;
         }
 
@@ -33,7 +33,7 @@ namespace LinqPractise
         public List<string> GetUniqueCitiesSortedAsc()
         {
             List<string> newList = new List<string>();
-            //Implement body here
+            newList = _transactions.Select(x => x.Trader.City).Distinct().OrderBy(x => x).ToList();
             return newList;
         }
 
@@ -45,7 +45,8 @@ namespace LinqPractise
         public string GetSinglestringFromUniqueTradersNamesSortByNameAsc()
         {
             string traderStr = "";
-            //Implement body here
+            var names = _transactions.Select(x => x.Trader.Name).Distinct().OrderBy(x => x).ToList();
+            traderStr = $"Traders: {string.Join(" ", names)}";
             return traderStr;
         }
 
@@ -57,18 +58,18 @@ namespace LinqPractise
         public bool IsSomeTraderFromCity(string cityName)
         {
             bool isSome = false;
-            //Implement body here
+            isSome = _transactions.Select(x => x.Trader).Where(x => x.City == cityName).Any();
             return isSome;
         }
 
         /// <summary>
-        /// Vraťte obchodníky zgrupovné podle města.
+        /// Vraťte obchodníky zgrupované podle města.
         /// </summary>
         /// <returns></returns>
         public Dictionary<string, List<Trader>> GetTradersByTown()
         {
             Dictionary<string, List<Trader>> tradersByTown = new Dictionary<string, List<Trader>>();
-            //Implement body here
+            tradersByTown = _transactions.Select(x => x.Trader).Distinct().GroupBy(x => x.City).ToDictionary(x => x.Key, x => x.ToList());
             return tradersByTown;
         }
 
@@ -79,19 +80,9 @@ namespace LinqPractise
         public Dictionary<string, long> GetTradersCountsByTown()
         {
             Dictionary<string, long> tradersByTown = new Dictionary<string, long>();
-            //Implement body here
+            tradersByTown = _transactions.Select(x => x.Trader).Distinct().GroupBy(x => x.City).ToDictionary(x => x.Key, x => (long)x.ToList().Count());
             return tradersByTown;
         }
 
-        /// <summary>
-        /// Rozdělte transakce na dvě skupiny - první, provedené vegetariány a druhá ostatní
-        /// </summary>
-        /// <returns></returns>
-        public Dictionary<bool, List<Transaction>> PartitionTransactionsByTraderIsVegetarian()
-        {
-            Dictionary<bool, List<Transaction>> transactionsBy = new Dictionary<bool, List<Transaction>>();
-            //Implement body here
-            return transactionsBy;
-        }
     }
 }
